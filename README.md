@@ -27,11 +27,17 @@ The main objectives of this project are:
 wordle-c/
 
 │── main.c        # Entry point (game loop)
+
 │── wordle.h      # Wordle declarations
+
 │── wordle.c      # Wordle game logic
+
 │── solver.h      # Solver declarations
+
 │── solver.c      # Solver implementation
+
 │── words.txt     # Dictionary of valid 5-letter words
+
 │── README.md     # Project documentation
 
 .Compilation & Execution
@@ -55,27 +61,45 @@ Make sure the file **`words.txt`** is in the same directory.
 3. After each guess, feedback is displayed:
 
    * `[G]` → Correct letter, correct position
+     
    * `[Y]` → Correct letter, wrong position
+     
    * `[ ]` → Letter not in the word
+     
 4. Guess the word within 6 tries to win.
 5. Sample Interaction (Human Player)
+   
    === WORDLE GAME ===
+   
 Guess 1: arise
+
 [G]a[Y]r[ ]i[ ]s
+
 Guess 2: alarm
+
 [G]a[G]l[G]a[ ]r
+
 Guess 3: alamo
+
 [G]a[G]l[G]a[G]o
+
 You win!
+
 6.Sample Output (Automatic Solver)
+
   --- Auto Solver ---
+  
 Attempt 1: arise
+
 [Y]a[ ]r[ ]i[ ]s
+
 Attempt 2: alamo
+
 [G]a[G]l[G]a[G]o
+
 Solver wins in 2 attempts!
 
----
+
 
 .Solver Strategy
 
