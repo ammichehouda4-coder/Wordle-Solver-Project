@@ -113,8 +113,11 @@ Given typical dictionary sizes, performance is excellent
 .Author:
 
 Nour elhouda Ammiche
+
 Nada Bencheikh
+
 course: algorithm and data structures
+
 Language: C
 
 If you want help improving the solver feel free to ask :) 
