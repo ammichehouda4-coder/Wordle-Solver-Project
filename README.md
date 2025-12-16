@@ -25,6 +25,7 @@ The main objectives of this project are:
 
 
 wordle-c/
+
 │── main.c        # Entry point (game loop)
 │── wordle.h      # Wordle declarations
 │── wordle.c      # Wordle game logic
@@ -100,7 +101,7 @@ These choices ensure:
 
 
 
-## ⏱️ Complexity Analysis
+.Complexity Analysis
 
 * Dictionary loading: O(N)
 * Feedback evaluation: O(WORD_LEN²)
