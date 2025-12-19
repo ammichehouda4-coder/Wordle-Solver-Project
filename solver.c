@@ -8,40 +8,17 @@ void copy_dictionary(const Dictionary *src, Dictionary *dest) {
         strcpy(dest->list[i].word, src->list[i].word);
 }
 
-int matches_feedback(const char *word, const char *guess, const FeedbackColor fb[]) {
-    int used[WORD_LEN] = {0};
+int matches_feedback(const char *candidate,
+                     const char *guess,
+                     const FeedbackColor fb[]) {
 
-    // Check GREEN
+    FeedbackColor test_fb[WORD_LEN];
+    get_feedback(guess, candidate, test_fb);
+
     for (int i = 0; i < WORD_LEN; i++) {
-        if (fb[i] == GREEN && word[i] != guess[i]) return 0;
-        if (fb[i] == GREEN) used[i] = 1;
+        if (test_fb[i] != fb[i])
+            return 0;
     }
-
-    // Check YELLOW & GRAY
-    for (int i = 0; i < WORD_LEN; i++) {
-        if (fb[i] == YELLOW) {
-            int found = 0;
-            for (int j = 0; j < WORD_LEN; j++) {
-                if (!used[j] && word[j] == guess[i] && guess[j] != word[j]) {
-                    found = 1;
-                    break;
-                }
-            }
-            if (!found) return 0;
-        }
-
-        if (fb[i] == GRAY) {
-            int found = 0;
-            for (int j = 0; j < WORD_LEN; j++) {
-                if (word[j] == guess[i] && !used[j]) {
-                    found = 1;
-                    break;
-                }
-            }
-            if (found) return 0;
-        }
-    }
-
     return 1;
 }
 
@@ -50,8 +27,10 @@ void filter_words(Dictionary *possible, const char *guess, const FeedbackColor f
     temp.size = 0;
 
     for (int i = 0; i < possible->size; i++) {
-        if (matches_feedback(possible->list[i].word, guess, fb))
-            strcpy(temp.list[temp.size++].word, possible->list[i].word);
+        if (matches_feedback(possible->list[i].word, guess, fb)) {
+            strcpy(temp.list[temp.size++].word,
+                   possible->list[i].word);
+        }
     }
 
     *possible = temp;
@@ -61,8 +40,7 @@ void solver_play(const Dictionary *dict, const char *target) {
     Dictionary possible;
     copy_dictionary(dict, &possible);
 
-    char guess[WORD_LEN + 1];
-    strcpy(guess, "arise");  // good starting word
+    char guess[WORD_LEN + 1] = "arise";
 
     for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
         FeedbackColor fb[WORD_LEN];
@@ -79,12 +57,14 @@ void solver_play(const Dictionary *dict, const char *target) {
         filter_words(&possible, guess, fb);
 
         if (possible.size == 0) {
-            printf("No more candidates — solver failed.\n");
+            printf("Solver failed: no candidates left.\n");
             return;
         }
 
-        strcpy(guess, possible.list[0].word);  // simple heuristic: pick first
+       int idx = rand() % possible.size;
+strcpy(guess, possible.list[idx].word);
+
     }
 
-    printf("Solver failed to guess in 6 attempts.\n");
+    printf("Solver failed after 6 attempts.\n");
 }
